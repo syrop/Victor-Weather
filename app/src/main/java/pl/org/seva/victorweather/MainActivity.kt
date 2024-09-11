@@ -6,42 +6,120 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import pl.org.seva.victorweather.screen.CityScreen
+import pl.org.seva.victorweather.screen.HistoryScreen
 import pl.org.seva.victorweather.ui.theme.VictorWeatherTheme
 
+@Serializable
+object City
+@Serializable
+object History
+
+@Serializable
+enum class DrawerDestination {
+    City,
+    History,
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
+            val scope = rememberCoroutineScope()
+            val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+            var selectedDrawerItem by remember { mutableStateOf(DrawerDestination.City) }
+            
             VictorWeatherTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(stringResource(R.string.app_name)) },
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    scope.launch {
+                                        drawerState.apply {
+                                            if (isClosed) open() else close()
+                                        }
+                                    }
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Menu,
+                                        contentDescription = null,
+                                    )
+                                }
+
+                            }
+                        )
+                    },
+                    modifier = Modifier.fillMaxSize(),
+                ) { innerPadding ->
+                    ModalNavigationDrawer(
+                        drawerState = drawerState,
+                        modifier = Modifier.padding(innerPadding),
+                        drawerContent = {
+                            ModalDrawerSheet {
+                                NavigationDrawerItem(
+                                    label = { Text(text = stringResource(R.string.city)) },
+                                    selected = selectedDrawerItem == DrawerDestination.City,
+                                    onClick = {
+                                        selectedDrawerItem = DrawerDestination.City
+                                        scope.launch {
+                                            drawerState.close()
+                                        }
+                                        navController.navigate(route = City)
+                                    }
+                                )
+                                NavigationDrawerItem(
+                                    label = { Text(text = stringResource(R.string.history)) },
+                                    selected = selectedDrawerItem == DrawerDestination.History,
+                                    onClick = {
+                                        selectedDrawerItem = DrawerDestination.History
+                                        scope.launch {
+                                            drawerState.close()
+                                        }
+                                        navController.navigate(route = History)
+                                    }
+                                )
+                            }
+                        }
+                    ) {
+                        NavHost(navController = navController, startDestination = City) {
+                            composable<City> { CityScreen() }
+                            composable<History> { HistoryScreen() }
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    VictorWeatherTheme {
-        Greeting("Android")
     }
 }
