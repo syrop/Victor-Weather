@@ -29,19 +29,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import pl.org.seva.victorweather.destination.CityDestination
+import pl.org.seva.victorweather.destination.CityDetailsDestination
+import pl.org.seva.victorweather.destination.HistoryDestination
 import pl.org.seva.victorweather.presentation.CityPresentation
+import pl.org.seva.victorweather.screen.CityDetailsScreen
 import pl.org.seva.victorweather.screen.CityScreen
 import pl.org.seva.victorweather.screen.HistoryScreen
 import pl.org.seva.victorweather.ui.theme.VictorWeatherTheme
 import javax.inject.Inject
-
-@Serializable
-object City
-@Serializable
-object History
 
 @Serializable
 enum class DrawerDestination {
@@ -102,7 +102,7 @@ class MainActivity : ComponentActivity() {
                                         scope.launch {
                                             drawerState.close()
                                         }
-                                        navController.navigate(route = City)
+                                        navController.navigate(route = CityDestination)
                                     }
                                 )
                                 NavigationDrawerItem(
@@ -113,15 +113,23 @@ class MainActivity : ComponentActivity() {
                                         scope.launch {
                                             drawerState.close()
                                         }
-                                        navController.navigate(route = History)
+                                        navController.navigate(route = HistoryDestination)
                                     }
                                 )
                             }
                         }
                     ) {
-                        NavHost(navController = navController, startDestination = City) {
-                            composable<City> { CityScreen(cityPresentation) }
-                            composable<History> { HistoryScreen() }
+                        NavHost(navController = navController, startDestination = CityDestination) {
+                            composable<CityDestination> { CityScreen(
+                                navController,
+                                cityPresentation,
+                            ) }
+                            composable<HistoryDestination> { HistoryScreen() }
+                            composable<CityDetailsDestination> { backStackEntry ->
+                                val cityDetailsDestination =
+                                    backStackEntry.toRoute<CityDetailsDestination>()
+                                CityDetailsScreen(cityDetailsDestination.city)
+                            }
                         }
                     }
                 }
