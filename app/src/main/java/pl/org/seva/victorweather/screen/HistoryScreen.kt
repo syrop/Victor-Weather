@@ -8,6 +8,6 @@ import pl.org.seva.victorweather.R
 @Composable
 fun HistoryScreen() {
 
-    Text(stringResource(R.string.history))
+    Text(stringResource(R.string.history_label))
 
 }

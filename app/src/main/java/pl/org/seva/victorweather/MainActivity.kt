@@ -32,9 +32,11 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
+import pl.org.seva.victorweather.presentation.CityPresentation
 import pl.org.seva.victorweather.screen.CityScreen
 import pl.org.seva.victorweather.screen.HistoryScreen
 import pl.org.seva.victorweather.ui.theme.VictorWeatherTheme
+import javax.inject.Inject
 
 @Serializable
 object City
@@ -50,6 +52,10 @@ enum class DrawerDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var cityPresentation: CityPresentation
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -89,7 +95,7 @@ class MainActivity : ComponentActivity() {
                         drawerContent = {
                             ModalDrawerSheet {
                                 NavigationDrawerItem(
-                                    label = { Text(text = stringResource(R.string.city)) },
+                                    label = { Text(text = stringResource(R.string.city_label)) },
                                     selected = selectedDrawerItem == DrawerDestination.City,
                                     onClick = {
                                         selectedDrawerItem = DrawerDestination.City
@@ -100,7 +106,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 )
                                 NavigationDrawerItem(
-                                    label = { Text(text = stringResource(R.string.history)) },
+                                    label = { Text(text = stringResource(R.string.history_label)) },
                                     selected = selectedDrawerItem == DrawerDestination.History,
                                     onClick = {
                                         selectedDrawerItem = DrawerDestination.History
@@ -114,7 +120,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) {
                         NavHost(navController = navController, startDestination = City) {
-                            composable<City> { CityScreen() }
+                            composable<City> { CityScreen(cityPresentation) }
                             composable<History> { HistoryScreen() }
                         }
                     }

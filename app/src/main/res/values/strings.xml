@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Victor Weather</string>
+
+    <!-- City Screen. -->
+    <string name="city_label">City</string>
     <string name="city">City</string>
-    <string name="history">History</string>
+    <string name="find">Find</string>
+
+    <!-- History Screen. -->
+    <string name="history_label">History</string>
 </resources>
