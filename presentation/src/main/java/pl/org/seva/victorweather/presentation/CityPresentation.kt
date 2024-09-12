@@ -7,7 +7,6 @@ import pl.org.seva.victorweather.presentation.architecture.BasePresentation
 import pl.org.seva.victorweather.presentation.architecture.UseCaseExecutorProvider
 import pl.org.seva.victorweather.presentation.mapper.GeocodingDomainToPresentationMapper
 import pl.org.seva.victorweather.presentation.model.CityViewState
-import pl.org.seva.victorweather.presentation.model.GeocodingPresentationModel
 
 class CityPresentation(
     private val geocodingDomainToPresentationMapper: GeocodingDomainToPresentationMapper,
@@ -15,19 +14,17 @@ class CityPresentation(
     useCaseExecutorProvider: UseCaseExecutorProvider,
 ) : BasePresentation<CityViewState>(useCaseExecutorProvider) {
 
-    override val initialViewState: CityViewState get() = CityViewState(GeocodingPresentationModel(
-        emptyList()
-    ))
+    override val initialViewState: CityViewState get() = CityViewState()
 
     fun findCities(scope: CoroutineScope, city: String) {
+        updateViewState { loading() }
         findCitiesUseCase(scope, city, ::onLoaded)
     }
 
     fun onLoaded(geocodingDomainModel: GeocodingDomainModel) {
         updateViewState {
-            CityViewState(geocodingDomainToPresentationMapper.toPresentation(geocodingDomainModel))
+            withGeocoding(geocodingDomainToPresentationMapper.toPresentation(geocodingDomainModel))
         }
     }
-
 
 }

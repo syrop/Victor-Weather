@@ -13,9 +13,7 @@ class GeocodingLiveDataSource(
 
     override suspend fun getGeocoding(city: String): GeocodingDataModel {
         return geocodingDataSourceToDataMapper.toData(
-            GeocodingDataSourceModel(geocodingService.getCities(city).apply {
-                println("wiktor size: $size")
-            })
+            GeocodingDataSourceModel(geocodingService.getCities(city))
         )
     }
 
