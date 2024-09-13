@@ -1,15 +1,15 @@
 package pl.org.seva.victorweather.presentation
 
 import kotlinx.coroutines.CoroutineScope
-import pl.org.seva.victorweather.domain.model.GeocodingDomainModel
+import pl.org.seva.victorweather.domain.model.CityDomainModel
 import pl.org.seva.victorweather.domain.usecase.FindCitiesUseCase
 import pl.org.seva.victorweather.presentation.architecture.BasePresentation
 import pl.org.seva.victorweather.presentation.architecture.UseCaseExecutorProvider
-import pl.org.seva.victorweather.presentation.mapper.GeocodingDomainToPresentationMapper
-import pl.org.seva.victorweather.presentation.model.CityViewState
+import pl.org.seva.victorweather.presentation.mapper.CityDomainToPresentationMapper
+import pl.org.seva.victorweather.presentation.viewstate.CityViewState
 
 class CityPresentation(
-    private val geocodingDomainToPresentationMapper: GeocodingDomainToPresentationMapper,
+    private val cityDomainToPresentationMapper: CityDomainToPresentationMapper,
     private val findCitiesUseCase: FindCitiesUseCase,
     useCaseExecutorProvider: UseCaseExecutorProvider,
 ) : BasePresentation<CityViewState>(useCaseExecutorProvider) {
@@ -18,12 +18,16 @@ class CityPresentation(
 
     fun findCities(scope: CoroutineScope, city: String) {
         updateViewState { loading() }
-        findCitiesUseCase(scope, city, ::onLoaded)
+        findCitiesUseCase(scope, city, ::onCitiesLoaded)
     }
 
-    fun onLoaded(geocodingDomainModel: GeocodingDomainModel) {
+    fun onCitiesLoaded(geocodingDomainModel: List<CityDomainModel>) {
         updateViewState {
-            withGeocoding(geocodingDomainToPresentationMapper.toPresentation(geocodingDomainModel))
+            withCities(
+                geocodingDomainModel.map {
+                    cityDomainToPresentationMapper.toPresentation(it)
+                }
+            )
         }
     }
 

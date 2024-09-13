@@ -64,10 +64,10 @@ fun CityScreen(
                 label = { Text(stringResource(R.string.city)) },
                 modifier = Modifier.fillMaxWidth(),
             )
-            state.geocoding.cities.forEach {
+            state.cities.forEach {
                 TextButton(
                     onClick = {
-                        navController.navigate(CityDetailsDestination(it.name))
+                        navController.navigate(CityDetailsDestination(it.uuid))
                     }
                 ) {
                     Text(

@@ -36,6 +36,7 @@ import kotlinx.serialization.Serializable
 import pl.org.seva.victorweather.destination.CityDestination
 import pl.org.seva.victorweather.destination.CityDetailsDestination
 import pl.org.seva.victorweather.destination.HistoryDestination
+import pl.org.seva.victorweather.presentation.CityDetailsPresentation
 import pl.org.seva.victorweather.presentation.CityPresentation
 import pl.org.seva.victorweather.screen.CityDetailsScreen
 import pl.org.seva.victorweather.screen.CityScreen
@@ -55,6 +56,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var cityPresentation: CityPresentation
+
+    @Inject
+    lateinit var cityDetailsPresentation: CityDetailsPresentation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +132,13 @@ class MainActivity : ComponentActivity() {
                             composable<CityDetailsDestination> { backStackEntry ->
                                 val cityDetailsDestination =
                                     backStackEntry.toRoute<CityDetailsDestination>()
-                                CityDetailsScreen(cityDetailsDestination.city)
+                                cityDetailsPresentation.getCity(
+                                    rememberCoroutineScope(),
+                                    cityDetailsDestination.city
+                                )
+                                CityDetailsScreen(
+                                    cityDetailsPresentation,
+                                )
                             }
                         }
                     }

@@ -8,7 +8,7 @@ import pl.org.seva.victorweather.data.datasource.GeocodingDataSource
 import pl.org.seva.victorweather.datasource.GeocodingLiveDataSource
 import pl.org.seva.victorweather.datasource.api.GeocodingService
 import pl.org.seva.victorweather.datasource.api.GeocodingServiceFactory
-import pl.org.seva.victorweather.datasource.mapper.GeocodingDataSourceToDataMapper
+import pl.org.seva.victorweather.datasource.mapper.CityDataSourceToDataMapper
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class DataSourceModule {
 
     @Provides
-    fun providesGeocodingDataSourceToDataMapper() = GeocodingDataSourceToDataMapper()
+    fun providesCityDataSourceToDataMapper() = CityDataSourceToDataMapper()
 
     @Provides
     fun provideGeocodingService() = GeocodingServiceFactory().getGeocodingService()
@@ -24,7 +24,7 @@ class DataSourceModule {
     @Provides
     @Singleton
     fun provideGeocodingDataSource(
-        geocodingDataSourceToDataMapper: GeocodingDataSourceToDataMapper,
+        geocodingDataSourceToDataMapper: CityDataSourceToDataMapper,
         geocodingService: GeocodingService,
     ): GeocodingDataSource = GeocodingLiveDataSource(
         geocodingDataSourceToDataMapper,

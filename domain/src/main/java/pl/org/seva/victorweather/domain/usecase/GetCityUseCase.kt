@@ -6,13 +6,13 @@ import pl.org.seva.victorweather.domain.cleanarchitecture.usecase.BackgroundExec
 import pl.org.seva.victorweather.domain.model.CityDomainModel
 import pl.org.seva.victorweather.domain.repository.CitiesRepository
 
-class FindCitiesUseCase(
+class GetCityUseCase(
     private val citiesRepository: CitiesRepository,
-) : BackgroundExecutingUseCase<String, List<CityDomainModel>>() {
+) : BackgroundExecutingUseCase<String, CityDomainModel>() {
 
-    override suspend fun executeInBackground(request: String): List<CityDomainModel> {
+    override suspend fun executeInBackground(request: String): CityDomainModel {
         return withContext(Dispatchers.IO) {
-            citiesRepository.findCities(request)
+            citiesRepository[request]
         }
     }
 
