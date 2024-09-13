@@ -72,7 +72,7 @@ fun CityScreen(
                 ) {
                     Text(
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        text = it.name,
+                        text = "${it.name} (${it.state})",
                     )
                 }
             }

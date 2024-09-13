@@ -10,6 +10,7 @@ class CityDataSourceToDataMapper {
         return CityDataModel(
             input.uuid ?: UUID.randomUUID().toString(),
             input.name,
+            input.state,
             input.lat,
             input.lon,
             input.country,

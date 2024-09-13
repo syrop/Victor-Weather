@@ -15,15 +15,7 @@ class CitiesLiveRepository(
 
     override suspend fun findCities(city: String): List<CityDomainModel> {
         cityMap.clear()
-        println("wiktor look for cities")
-        val cities = try {
-            geocodingDataSource.fetchCities(city)
-        }
-        catch (e: Exception) {
-            println("wiktor $e")
-            emptyList()
-        }
-        println("wiktor there are cities")
+        val cities = geocodingDataSource.fetchCities(city)
         cities.forEach { cityMap[it.uuid] = it }
         return cities.map { geocodingDataToDomainMapper.toData(it) }
     }

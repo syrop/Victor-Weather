@@ -9,6 +9,7 @@ class CityDomainToPresentationMapper {
         return CityPresentationModel(
             input.uuid,
             input.name,
+            input.state,
             input.lat,
             input.lon,
             input.country,

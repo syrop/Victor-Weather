@@ -132,10 +132,14 @@ class MainActivity : ComponentActivity() {
                             composable<CityDetailsDestination> { backStackEntry ->
                                 val cityDetailsDestination =
                                     backStackEntry.toRoute<CityDetailsDestination>()
-                                cityDetailsPresentation.getCity(
-                                    rememberCoroutineScope(),
-                                    cityDetailsDestination.city
-                                )
+                                val scope = rememberCoroutineScope()
+                                remember {
+                                    cityDetailsPresentation.loadCity(
+                                        scope,
+                                        cityDetailsDestination.city
+                                    )
+                                    null
+                                }
                                 CityDetailsScreen(
                                     cityDetailsPresentation,
                                 )

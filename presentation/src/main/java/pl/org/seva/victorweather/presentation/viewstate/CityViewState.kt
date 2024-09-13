@@ -7,7 +7,7 @@ data class CityViewState(
     val cities: List<CityPresentationModel> = emptyList(),
 ) {
 
-    fun loading() = copy(isLoading = true)
+    fun loading() = copy(isLoading = true, cities = emptyList())
 
     fun withCities(cities: List<CityPresentationModel>) = copy(
         isLoading = false,

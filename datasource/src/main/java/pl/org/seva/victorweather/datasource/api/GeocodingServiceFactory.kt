@@ -8,7 +8,6 @@ class GeocodingServiceFactory {
 
     fun getGeocodingService(): GeocodingService = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(GeocodingService::class.java)
