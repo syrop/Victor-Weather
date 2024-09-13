@@ -1,11 +1,11 @@
-package pl.org.seva.victorweather.data.mapper
+package pl.org.seva.victorweather.presentation.mapper
 
-import pl.org.seva.victorweather.data.model.CityDataModel
 import pl.org.seva.victorweather.domain.model.CityDomainModel
+import pl.org.seva.victorweather.presentation.model.CityPresentationModel
 
-class CityDataToDomainMapper {
+class CityPresentationToDomainMapper {
 
-    fun toDomain(input: CityDataModel): CityDomainModel {
+    fun toDomain(input: CityPresentationModel): CityDomainModel {
         return CityDomainModel(
             input.uuid,
             input.name,

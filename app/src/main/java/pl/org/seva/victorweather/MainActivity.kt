@@ -38,6 +38,7 @@ import pl.org.seva.victorweather.destination.CityDetailsDestination
 import pl.org.seva.victorweather.destination.HistoryDestination
 import pl.org.seva.victorweather.presentation.CityDetailsPresentation
 import pl.org.seva.victorweather.presentation.CityPresentation
+import pl.org.seva.victorweather.presentation.HistoryPresentation
 import pl.org.seva.victorweather.screen.CityDetailsScreen
 import pl.org.seva.victorweather.screen.CityScreen
 import pl.org.seva.victorweather.screen.HistoryScreen
@@ -59,6 +60,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var cityDetailsPresentation: CityDetailsPresentation
+
+    @Inject
+    lateinit var historyPresentation: HistoryPresentation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,11 +132,16 @@ class MainActivity : ComponentActivity() {
                                 navController,
                                 cityPresentation,
                             ) }
-                            composable<HistoryDestination> { HistoryScreen() }
+                            composable<HistoryDestination> {
+                                historyPresentation.load(scope)
+                                HistoryScreen(
+                                    navController,
+                                    historyPresentation,
+                                )
+                            }
                             composable<CityDetailsDestination> { backStackEntry ->
                                 val cityDetailsDestination =
                                     backStackEntry.toRoute<CityDetailsDestination>()
-                                val scope = rememberCoroutineScope()
                                 remember {
                                     cityDetailsPresentation.loadCity(
                                         scope,

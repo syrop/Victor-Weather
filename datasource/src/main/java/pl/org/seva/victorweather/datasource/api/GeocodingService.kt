@@ -1,6 +1,6 @@
 package pl.org.seva.victorweather.datasource.api
 
-import pl.org.seva.victorweather.datasource.model.CityDataSourceModel
+import pl.org.seva.victorweather.datasource.model.api.CityDataSourceModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

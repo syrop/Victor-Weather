@@ -9,5 +9,5 @@ java {
 }
 dependencies {
     implementation(project(":domain"))
-    implementation(libs.kotlinx.coroutines.core.v181)
+    implementation(libs.kotlinx.coroutines.core)
 }

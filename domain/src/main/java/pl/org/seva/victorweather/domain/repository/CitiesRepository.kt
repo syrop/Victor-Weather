@@ -8,4 +8,8 @@ interface CitiesRepository {
 
     operator fun get(uuid: String): CityDomainModel
 
+    suspend fun save(city: CityDomainModel)
+
+    suspend fun load(): List<CityDomainModel>
+
 }

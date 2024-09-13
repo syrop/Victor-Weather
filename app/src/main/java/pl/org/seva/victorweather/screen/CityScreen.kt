@@ -67,8 +67,9 @@ fun CityScreen(
             state.cities.forEach {
                 TextButton(
                     onClick = {
+                        cityPresentation.save(scope, it)
                         navController.navigate(CityDetailsDestination(it.uuid))
-                    }
+                    },
                 ) {
                     Text(
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,

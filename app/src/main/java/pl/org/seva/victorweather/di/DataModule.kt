@@ -4,9 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import pl.org.seva.victorweather.data.datasource.GeocodingDataSource
+import pl.org.seva.victorweather.data.datasource.CitiesDataSource
 import pl.org.seva.victorweather.data.datasource.WeatherDataSource
 import pl.org.seva.victorweather.data.mapper.CityDataToDomainMapper
+import pl.org.seva.victorweather.data.mapper.CityDomainToDataMapper
 import pl.org.seva.victorweather.data.mapper.WeatherDataToDomainMapper
 import pl.org.seva.victorweather.data.repository.CitiesLiveRepository
 import pl.org.seva.victorweather.data.repository.WeatherLiveRepository
@@ -25,13 +26,18 @@ class DataModule {
     fun providesWeatherDataToDomainMapper() = WeatherDataToDomainMapper()
 
     @Provides
+    fun providesCityDomainToDataMapper() = CityDomainToDataMapper()
+
+    @Provides
     @Singleton
     fun providesCitiesRepository(
         cityDataToDomainMapper: CityDataToDomainMapper,
-        cityDataSource: GeocodingDataSource,
+        cityDomainToDataMapper: CityDomainToDataMapper,
+        citiesDataSource: CitiesDataSource,
     ): CitiesRepository = CitiesLiveRepository(
         cityDataToDomainMapper,
-        cityDataSource,
+        cityDomainToDataMapper,
+        citiesDataSource,
     )
 
     @Provides

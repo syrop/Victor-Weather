@@ -1,7 +1,7 @@
 package pl.org.seva.victorweather.datasource.mapper
 
 import pl.org.seva.victorweather.data.model.WeatherDataModel
-import pl.org.seva.victorweather.datasource.model.WeatherDataSourceModel
+import pl.org.seva.victorweather.datasource.model.api.WeatherDataSourceModel
 
 class WeatherDataSourceToDataMapper {
 
