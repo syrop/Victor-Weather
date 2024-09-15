@@ -40,15 +40,16 @@ fun HistoryScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            state.cities.forEach {
+            state.cities.forEach { city ->
                 TextButton(
                     onClick = {
-                        navController.navigate(WeatherHistoryDestination(it.uuid))
+                        navController.navigate(WeatherHistoryDestination(city.uuid))
                     },
                 ) {
+                    val name = city.name + if (city.state != null) " (${city.state})" else ""
                     Text(
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        text = "${it.name} (${it.state})",
+                        text = name,
                     )
                 }
             }
