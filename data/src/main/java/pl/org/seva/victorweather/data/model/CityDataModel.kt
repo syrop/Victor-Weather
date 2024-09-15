@@ -3,7 +3,7 @@ package pl.org.seva.victorweather.data.model
 data class CityDataModel(
     val uuid: String,
     val name: String,
-    val state: String,
+    val state: String?,
     val lat: Double,
     val lon: Double,
     val country: String,

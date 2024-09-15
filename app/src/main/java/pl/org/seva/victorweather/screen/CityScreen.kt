@@ -1,5 +1,6 @@
 package pl.org.seva.victorweather.screen
 
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,16 +65,17 @@ fun CityScreen(
                 label = { Text(stringResource(R.string.city)) },
                 modifier = Modifier.fillMaxWidth(),
             )
-            state.cities.forEach {
+            state.cities.forEach { city ->
                 TextButton(
                     onClick = {
-                        cityPresentation.save(scope, it)
-                        navController.navigate(CityDetailsDestination(it.uuid))
+                        cityPresentation.save(scope, city)
+                        navController.navigate(CityDetailsDestination(city.uuid))
                     },
                 ) {
+                    val name = city.name + if (city.state != null) " (${city.state})" else ""
                     Text(
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        text = "${it.name} (${it.state})",
+                        text = name,
                     )
                 }
             }

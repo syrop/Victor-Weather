@@ -8,6 +8,6 @@ data class CityHistoricalDataSourceModel(
     @PrimaryKey
     val uuid: String,
     val name: String,
-    val state: String,
+    val state: String?,
     val country: String,
 )
