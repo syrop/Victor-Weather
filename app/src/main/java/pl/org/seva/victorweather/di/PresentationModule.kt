@@ -7,18 +7,23 @@ import dagger.hilt.components.SingletonComponent
 import pl.org.seva.victorweather.domain.cleanarchitecture.usecase.UseCaseExecutor
 import pl.org.seva.victorweather.domain.repository.CitiesRepository
 import pl.org.seva.victorweather.domain.repository.WeatherRepository
+import pl.org.seva.victorweather.domain.usecase.FetchHistoricalWeatherUseCase
 import pl.org.seva.victorweather.domain.usecase.FetchWeatherUseCase
 import pl.org.seva.victorweather.domain.usecase.FindCitiesUseCase
 import pl.org.seva.victorweather.domain.usecase.GetCityUseCase
-import pl.org.seva.victorweather.domain.usecase.LoadCitiesUseCase
+import pl.org.seva.victorweather.domain.usecase.FetchHistoricalCitiesUseCase
+import pl.org.seva.victorweather.domain.usecase.FetchHistoricalCityUseCase
 import pl.org.seva.victorweather.domain.usecase.SaveCityUseCase
+import pl.org.seva.victorweather.domain.usecase.SaveWeatherUseCase
 import pl.org.seva.victorweather.presentation.CityDetailsPresentation
 import pl.org.seva.victorweather.presentation.CityPresentation
 import pl.org.seva.victorweather.presentation.HistoryPresentation
+import pl.org.seva.victorweather.presentation.WeatherHistoryPresentation
 import pl.org.seva.victorweather.presentation.architecture.UseCaseExecutorProvider
 import pl.org.seva.victorweather.presentation.mapper.CityDomainToPresentationMapper
 import pl.org.seva.victorweather.presentation.mapper.CityPresentationToDomainMapper
 import pl.org.seva.victorweather.presentation.mapper.WeatherDomainToPresentationMapper
+import pl.org.seva.victorweather.presentation.mapper.WeatherPresentationToDomainMapper
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -31,10 +36,13 @@ class PresentationModule {
     fun providesCityDomainToPresentationMapper() = CityDomainToPresentationMapper()
 
     @Provides
-    fun provideCityPresentationToDomainMapper() = CityPresentationToDomainMapper()
+    fun providesCityPresentationToDomainMapper() = CityPresentationToDomainMapper()
 
     @Provides
     fun providesWeatherDomainToPresentationMapper() = WeatherDomainToPresentationMapper()
+
+    @Provides
+    fun providesWeatherPresentationToDomainMapper() = WeatherPresentationToDomainMapper()
 
     @Provides
     fun providesFindCitiesUseCase(
@@ -47,19 +55,33 @@ class PresentationModule {
     ) = GetCityUseCase(citiesRepository)
 
     @Provides
-    fun fetchWeatherUseCase(
+    fun providesFetchWeatherUseCase(
         weatherRepository: WeatherRepository,
     ) = FetchWeatherUseCase(weatherRepository)
 
     @Provides
-    fun saveCityUseCase(
+    fun providesSaveWeatherUseCase(weatherRepository: WeatherRepository) =
+        SaveWeatherUseCase(weatherRepository)
+
+    @Provides
+    fun providesSaveCityUseCase(
         citiesRepository: CitiesRepository,
     ) = SaveCityUseCase(citiesRepository)
 
     @Provides
-    fun loadCitiesUseCase(
+    fun providesLoadCitiesUseCase(
         citiesRepository: CitiesRepository,
-    ) = LoadCitiesUseCase(citiesRepository)
+    ) = FetchHistoricalCitiesUseCase(citiesRepository)
+
+    @Provides
+    fun providesFetchHistoricalWeatherUseCase(
+        weatherRepository: WeatherRepository,
+    ) = FetchHistoricalWeatherUseCase(weatherRepository)
+
+    @Provides
+    fun providesFetchHistoricalCityUseCase(
+        citiesRepository: CitiesRepository,
+    ) = FetchHistoricalCityUseCase(citiesRepository)
 
     @Provides
     fun providesCityPresentation(
@@ -80,25 +102,44 @@ class PresentationModule {
     fun providesCityDetailsPresentation(
         cityDomainToPresentationMapper: CityDomainToPresentationMapper,
         weatherDomainToPresentationMapper: WeatherDomainToPresentationMapper,
+        weatherPresentationToDomainMapper: WeatherPresentationToDomainMapper,
         getCityUseCase: GetCityUseCase,
         fetchWeatherUseCase: FetchWeatherUseCase,
+        saveWeatherUseCase: SaveWeatherUseCase,
         useCaseExecutorProvider: UseCaseExecutorProvider,
     ) = CityDetailsPresentation(
         cityDomainToPresentationMapper,
         weatherDomainToPresentationMapper,
+        weatherPresentationToDomainMapper,
         getCityUseCase,
         fetchWeatherUseCase,
+        saveWeatherUseCase,
         useCaseExecutorProvider,
     )
 
     @Provides
     fun provideHistoryPresentation(
         cityDomainToPresentationMapper: CityDomainToPresentationMapper,
-        loadCitiesUseCase: LoadCitiesUseCase,
+        fetchHistoricalCitiesUseCase: FetchHistoricalCitiesUseCase,
         useCaseExecutorProvider: UseCaseExecutorProvider,
     ) = HistoryPresentation(
         cityDomainToPresentationMapper,
-        loadCitiesUseCase,
+        fetchHistoricalCitiesUseCase,
+        useCaseExecutorProvider,
+    )
+
+    @Provides
+    fun provideWeatherHistoryPresentation(
+        weatherDomainToPresentationMapper: WeatherDomainToPresentationMapper,
+        cityDomainToPresentationMapper: CityDomainToPresentationMapper,
+        fetchHistoricalCityUseCase: FetchHistoricalCityUseCase,
+        fetchHistoricalWeatherUseCase: FetchHistoricalWeatherUseCase,
+        useCaseExecutorProvider: UseCaseExecutorProvider,
+    ) = WeatherHistoryPresentation(
+        weatherDomainToPresentationMapper,
+        cityDomainToPresentationMapper,
+        fetchHistoricalCityUseCase,
+        fetchHistoricalWeatherUseCase,
         useCaseExecutorProvider,
     )
 

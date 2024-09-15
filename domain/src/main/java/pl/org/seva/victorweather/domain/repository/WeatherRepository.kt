@@ -6,4 +6,8 @@ interface WeatherRepository {
 
     suspend fun fetchWeather(lat: Double, lon: Double): WeatherDomainModel
 
+    suspend fun fetchWeatherHistory(city: String): WeatherDomainModel
+
+    suspend fun save(weather: WeatherDomainModel)
+
 }

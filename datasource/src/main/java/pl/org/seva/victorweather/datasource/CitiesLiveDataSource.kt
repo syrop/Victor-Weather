@@ -6,6 +6,7 @@ import pl.org.seva.victorweather.data.datasource.CitiesDataSource
 import pl.org.seva.victorweather.data.model.CityDataModel
 import pl.org.seva.victorweather.datasource.api.GeocodingService
 import pl.org.seva.victorweather.datasource.database.WeatherDatabase
+import pl.org.seva.victorweather.datasource.database.WeatherDatabase.Companion.DATABASE_NAME
 import pl.org.seva.victorweather.datasource.mapper.CityDataSourceToDataMapper
 import pl.org.seva.victorweather.datasource.mapper.CityDataToDataSourceMapper
 
@@ -36,8 +37,8 @@ class CitiesLiveDataSource(
         return weatherDb.cityDao().getAll().map { cityDataSourceToDataMapper.toData(it) }
     }
 
-    companion object {
-        const val DATABASE_NAME = "weather"
+    override suspend fun load(city: String): CityDataModel {
+        return cityDataSourceToDataMapper.toData(weatherDb.cityDao().getCity(city))
     }
 
 }

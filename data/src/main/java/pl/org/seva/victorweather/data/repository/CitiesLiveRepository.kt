@@ -34,4 +34,8 @@ class CitiesLiveRepository(
         return citiesDataSource.load().map { cityDataToDomainMapper.toDomain(it) }
     }
 
+    override suspend fun load(city: String): CityDomainModel {
+        return cityDataToDomainMapper.toDomain(citiesDataSource.load(city))
+    }
+
 }

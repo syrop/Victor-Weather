@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import pl.org.seva.victorweather.destination.CityDetailsDestination
+import pl.org.seva.victorweather.destination.WeatherHistoryDestination
 import pl.org.seva.victorweather.presentation.HistoryPresentation
 
 @Composable
@@ -41,7 +42,9 @@ fun HistoryScreen(
         ) {
             state.cities.forEach {
                 TextButton(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(WeatherHistoryDestination(it.uuid))
+                    },
                 ) {
                     Text(
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,

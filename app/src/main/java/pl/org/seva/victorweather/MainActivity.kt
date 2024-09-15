@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,9 +37,11 @@ import kotlinx.serialization.Serializable
 import pl.org.seva.victorweather.destination.CityDestination
 import pl.org.seva.victorweather.destination.CityDetailsDestination
 import pl.org.seva.victorweather.destination.HistoryDestination
+import pl.org.seva.victorweather.destination.WeatherHistoryDestination
 import pl.org.seva.victorweather.presentation.CityDetailsPresentation
 import pl.org.seva.victorweather.presentation.CityPresentation
 import pl.org.seva.victorweather.presentation.HistoryPresentation
+import pl.org.seva.victorweather.presentation.WeatherHistoryPresentation
 import pl.org.seva.victorweather.screen.CityDetailsScreen
 import pl.org.seva.victorweather.screen.CityScreen
 import pl.org.seva.victorweather.screen.HistoryScreen
@@ -63,6 +66,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var historyPresentation: HistoryPresentation
+
+    @Inject
+    lateinit var weatherHistoryPresentation: WeatherHistoryPresentation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,14 +149,32 @@ class MainActivity : ComponentActivity() {
                                 val cityDetailsDestination =
                                     backStackEntry.toRoute<CityDetailsDestination>()
                                 remember {
-                                    cityDetailsPresentation.loadCity(
+                                    cityDetailsPresentation.getCity(
                                         scope,
                                         cityDetailsDestination.city
                                     )
                                     null
                                 }
                                 CityDetailsScreen(
-                                    cityDetailsPresentation,
+                                    cityDetailsPresentation.viewState.collectAsState().value,
+                                )
+                            }
+                            composable<WeatherHistoryDestination> { backStackEntry ->
+                                val weatherHistoryDestination =
+                                    backStackEntry.toRoute<WeatherHistoryDestination>()
+                                remember {
+                                    weatherHistoryPresentation.fetchCity(
+                                        scope,
+                                        weatherHistoryDestination.city,
+                                    )
+                                    weatherHistoryPresentation.fetchHistoricalWeather(
+                                        scope,
+                                        weatherHistoryDestination.city
+                                    )
+                                    null
+                                }
+                                CityDetailsScreen(
+                                    weatherHistoryPresentation.viewState.collectAsState().value
                                 )
                             }
                         }

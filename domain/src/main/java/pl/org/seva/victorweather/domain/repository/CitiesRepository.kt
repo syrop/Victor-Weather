@@ -12,4 +12,6 @@ interface CitiesRepository {
 
     suspend fun load(): List<CityDomainModel>
 
+    suspend fun load(city: String): CityDomainModel
+
 }

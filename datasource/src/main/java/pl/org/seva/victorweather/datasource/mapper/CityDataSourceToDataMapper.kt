@@ -1,11 +1,13 @@
 package pl.org.seva.victorweather.datasource.mapper
 
 import pl.org.seva.victorweather.data.model.CityDataModel
+import pl.org.seva.victorweather.datasource.model.CityDataSourceModel
+import pl.org.seva.victorweather.datasource.model.CityHistoricalDataSourceModel
 import java.util.UUID
 
 class CityDataSourceToDataMapper {
 
-    fun toData(input: pl.org.seva.victorweather.datasource.model.api.CityDataSourceModel): CityDataModel {
+    fun toData(input: CityDataSourceModel): CityDataModel {
         return CityDataModel(
             input.uuid ?: UUID.randomUUID().toString(),
             input.name,
@@ -16,7 +18,7 @@ class CityDataSourceToDataMapper {
         )
     }
 
-    fun toData(input: pl.org.seva.victorweather.datasource.model.db.CityDataSourceModel): CityDataModel {
+    fun toData(input: CityHistoricalDataSourceModel): CityDataModel {
         return CityDataModel(
             input.uuid,
             input.name,

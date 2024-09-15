@@ -1,10 +1,10 @@
-package pl.org.seva.victorweather.datasource.model.db
+package pl.org.seva.victorweather.datasource.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class WeatherDataSourceModel(
+data class WeatherHistoricalDataSourceModel(
     @PrimaryKey
     val uuid: String,
     val temp: Double,

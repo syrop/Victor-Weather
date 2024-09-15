@@ -10,4 +10,6 @@ interface CitiesDataSource {
 
     suspend fun load(): List<CityDataModel>
 
+    suspend fun load(city: String): CityDataModel
+
 }

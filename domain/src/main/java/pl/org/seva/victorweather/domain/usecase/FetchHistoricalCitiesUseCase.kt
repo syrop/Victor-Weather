@@ -6,7 +6,7 @@ import pl.org.seva.victorweather.domain.cleanarchitecture.usecase.BackgroundExec
 import pl.org.seva.victorweather.domain.model.CityDomainModel
 import pl.org.seva.victorweather.domain.repository.CitiesRepository
 
-class LoadCitiesUseCase(
+class FetchHistoricalCitiesUseCase(
     private val citiesRepository: CitiesRepository,
 ) : BackgroundExecutingUseCase<Unit, List<CityDomainModel>>() {
 

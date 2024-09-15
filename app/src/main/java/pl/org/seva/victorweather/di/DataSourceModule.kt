@@ -17,6 +17,7 @@ import pl.org.seva.victorweather.datasource.api.WeatherServiceFactory
 import pl.org.seva.victorweather.datasource.mapper.CityDataSourceToDataMapper
 import pl.org.seva.victorweather.datasource.mapper.CityDataToDataSourceMapper
 import pl.org.seva.victorweather.datasource.mapper.WeatherDataSourceToDataMapper
+import pl.org.seva.victorweather.datasource.mapper.WeatherDataToDataSourceMapper
 import javax.inject.Singleton
 
 @Module
@@ -39,6 +40,9 @@ class DataSourceModule {
     fun providesCityDataToDataSourceMapper() = CityDataToDataSourceMapper()
 
     @Provides
+    fun providesWeatherDataToDataSourceMapper() = WeatherDataToDataSourceMapper()
+
+    @Provides
     @Singleton
     fun provideGeocodingDataSource(
         @ApplicationContext context: Context,
@@ -55,8 +59,15 @@ class DataSourceModule {
     @Provides
     @Singleton
     fun provideWeatherDataSource(
+        @ApplicationContext context: Context,
         weatherDataSourceToDataMapper: WeatherDataSourceToDataMapper,
+        weatherDataToDataSourceMapper: WeatherDataToDataSourceMapper,
         weatherService: WeatherService,
-    ): WeatherDataSource = WeatherLiveDataSource(weatherDataSourceToDataMapper, weatherService)
+    ): WeatherDataSource = WeatherLiveDataSource(
+        context,
+        weatherDataSourceToDataMapper,
+        weatherDataToDataSourceMapper,
+        weatherService,
+    )
 
 }

@@ -5,7 +5,11 @@ import pl.org.seva.victorweather.presentation.model.WeatherPresentationModel
 
 class WeatherDomainToPresentationMapper {
 
-    fun toPresentation(input: WeatherDomainModel) = WeatherPresentationModel(
+    fun toPresentation(
+        input: WeatherDomainModel,
+        uuid: String = requireNotNull(input.uuid) { "Wrong uuid in input" },
+    ) = WeatherPresentationModel(
+        uuid,
         input.temp,
         input.clouds,
         input.rain,

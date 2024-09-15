@@ -1,4 +1,4 @@
-package pl.org.seva.victorweather.datasource.model.api
+package pl.org.seva.victorweather.datasource.model
 
 data class CityDataSourceModel(
     val uuid: String?,

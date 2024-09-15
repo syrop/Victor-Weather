@@ -9,6 +9,7 @@ import pl.org.seva.victorweather.data.datasource.WeatherDataSource
 import pl.org.seva.victorweather.data.mapper.CityDataToDomainMapper
 import pl.org.seva.victorweather.data.mapper.CityDomainToDataMapper
 import pl.org.seva.victorweather.data.mapper.WeatherDataToDomainMapper
+import pl.org.seva.victorweather.data.mapper.WeatherDomainToDataMapper
 import pl.org.seva.victorweather.data.repository.CitiesLiveRepository
 import pl.org.seva.victorweather.data.repository.WeatherLiveRepository
 import pl.org.seva.victorweather.domain.repository.CitiesRepository
@@ -29,6 +30,9 @@ class DataModule {
     fun providesCityDomainToDataMapper() = CityDomainToDataMapper()
 
     @Provides
+    fun provideWeatherDomainToDataMapper() = WeatherDomainToDataMapper()
+
+    @Provides
     @Singleton
     fun providesCitiesRepository(
         cityDataToDomainMapper: CityDataToDomainMapper,
@@ -44,9 +48,11 @@ class DataModule {
     @Singleton
     fun provideWeatherRepository(
         weatherDataToDomainMapper: WeatherDataToDomainMapper,
+        weatherDomainToDataMapper: WeatherDomainToDataMapper,
         weatherDataSource: WeatherDataSource,
     ): WeatherRepository = WeatherLiveRepository(
         weatherDataToDomainMapper,
+        weatherDomainToDataMapper,
         weatherDataSource,
     )
 

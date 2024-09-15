@@ -1,4 +1,4 @@
-package pl.org.seva.victorweather.datasource.model.api
+package pl.org.seva.victorweather.datasource.model
 
 data class WeatherDataSourceModel(val current: Current) {
 

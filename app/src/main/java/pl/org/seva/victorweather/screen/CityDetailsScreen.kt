@@ -14,13 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import pl.org.seva.victorweather.presentation.CityDetailsPresentation
+import pl.org.seva.victorweather.presentation.viewstate.CityDetailsViewState
 
 @Composable
-fun CityDetailsScreen(
-    cityDetailsPresentation: CityDetailsPresentation,
-) {
-
-    val state = cityDetailsPresentation.viewState.collectAsState().value
+fun CityDetailsScreen(state: CityDetailsViewState) {
 
     Box(
         contentAlignment = Alignment.Center,
