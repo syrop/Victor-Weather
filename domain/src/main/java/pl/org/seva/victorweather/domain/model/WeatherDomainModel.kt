@@ -6,4 +6,5 @@ data class WeatherDomainModel(
     val clouds: Int,
     val rain: Double?,
     val snow: Double?,
+    val humidity: Double,
 )

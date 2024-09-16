@@ -8,4 +8,11 @@
 
     <!-- History Screen. -->
     <string name="history_label">History</string>
+
+    <!-- City details screen. -->
+    <string name="temperature">Temperature</string>
+    <string name="clouds">Clouds</string>
+    <string name="rain">Rain</string>
+    <string name="snow">Snow</string>
+    <string name="humidity">Humidity</string>
 </resources>

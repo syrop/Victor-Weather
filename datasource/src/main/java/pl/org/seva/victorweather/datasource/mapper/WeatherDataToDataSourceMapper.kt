@@ -12,6 +12,7 @@ class WeatherDataToDataSourceMapper {
             input.clouds,
             input.rain,
             input.snow,
+            input.humidity,
         )
     }
 

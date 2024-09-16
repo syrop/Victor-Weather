@@ -7,6 +7,7 @@ data class WeatherDataSourceModel(val current: Current) {
         val clouds: Int,
         val rain: Fall?,
         val snow: Fall?,
+        val humidity: Double,
     )
 
     data class Fall(

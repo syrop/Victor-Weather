@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.util.fastForEachReversed
 import androidx.navigation.NavHostController
 import pl.org.seva.victorweather.destination.CityDetailsDestination
 import pl.org.seva.victorweather.destination.WeatherHistoryDestination
@@ -40,16 +41,15 @@ fun HistoryScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            state.cities.forEach { city ->
+            state.cities.fastForEachReversed { city ->
                 TextButton(
                     onClick = {
                         navController.navigate(WeatherHistoryDestination(city.uuid))
                     },
                 ) {
-                    val name = city.name + if (city.state != null) " (${city.state})" else ""
                     Text(
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        text = name,
+                        text = city.toString(),
                     )
                 }
             }

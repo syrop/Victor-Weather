@@ -72,10 +72,9 @@ fun CityScreen(
                         navController.navigate(CityDetailsDestination(city.uuid))
                     },
                 ) {
-                    val name = city.name + if (city.state != null) " (${city.state})" else ""
                     Text(
                         color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        text = name,
+                        text = city.toString(),
                     )
                 }
             }

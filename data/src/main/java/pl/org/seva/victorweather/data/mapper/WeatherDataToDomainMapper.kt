@@ -12,6 +12,7 @@ class WeatherDataToDomainMapper {
             input.clouds,
             input.rain,
             input.snow,
+            input.humidity,
         )
     }
 

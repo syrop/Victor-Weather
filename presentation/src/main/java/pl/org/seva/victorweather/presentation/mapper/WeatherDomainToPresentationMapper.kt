@@ -14,6 +14,7 @@ class WeatherDomainToPresentationMapper {
         input.clouds,
         input.rain,
         input.snow,
+        input.humidity,
     )
 
 }

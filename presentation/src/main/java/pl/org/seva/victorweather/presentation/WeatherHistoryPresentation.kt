@@ -28,7 +28,7 @@ class WeatherHistoryPresentation(
     }
 
     fun onFetchedCity(city: CityDomainModel) {
-        updateViewState { withCityName(cityDomainToPresentationMapper.toPresentation(city).name) }
+        updateViewState { withCity(cityDomainToPresentationMapper.toPresentation(city).toString()) }
     }
 
     fun fetchHistoricalWeather(scope: CoroutineScope, city: String) {

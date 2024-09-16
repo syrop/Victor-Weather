@@ -32,7 +32,7 @@ class CityDetailsPresentation(
     }
 
     fun onGotCity(city: CityDomainModel, scope: CoroutineScope) {
-        updateViewState { withCityName(cityDomainToPresentationMapper.toPresentation(city).name) }
+        updateViewState { withCity(cityDomainToPresentationMapper.toPresentation(city).toString()) }
         fetchWeatherUseCase(
             scope,
             city.lat to city.lon,

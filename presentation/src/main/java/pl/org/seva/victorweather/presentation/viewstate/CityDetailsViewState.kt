@@ -13,9 +13,9 @@ data class CityDetailsViewState(
         weather = null,
     )
 
-    fun withCityName(cityName: String) = copy(
+    fun withCity(city: String) = copy(
         isLoading = false,
-        cityName = cityName,
+        cityName = city,
     )
 
     fun withWeather(weather: WeatherPresentationModel?) = copy(

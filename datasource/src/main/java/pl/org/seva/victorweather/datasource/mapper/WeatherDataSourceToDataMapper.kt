@@ -13,6 +13,7 @@ class WeatherDataSourceToDataMapper {
             input.current.clouds,
             input.current.rain?.`1h`,
             input.current.snow?.`1h`,
+            input.current.humidity,
         )
     }
 
@@ -23,6 +24,7 @@ class WeatherDataSourceToDataMapper {
             input.clouds,
             input.rain,
             input.snow,
+            input.humidity,
         )
     }
 

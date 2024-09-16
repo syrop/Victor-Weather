@@ -7,4 +7,7 @@ data class CityPresentationModel(
     val lat: Double,
     val lon: Double,
     val country: String,
-)
+) {
+    override fun toString() =
+        name + if (state != null) " ($state)" else ""
+}
