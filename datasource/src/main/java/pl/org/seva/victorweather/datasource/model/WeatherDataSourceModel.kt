@@ -11,7 +11,7 @@ data class WeatherDataSourceModel(val current: Current) {
     )
 
     data class Fall(
-        val `1h` : Double,
+        val `1h`: Double,
     )
 
 }

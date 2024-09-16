@@ -27,7 +27,7 @@ class WeatherHistoryPresentation(
         fetchHistoricalCityUseCase(scope, uuid, onSuccess = ::onFetchedCity)
     }
 
-    fun onFetchedCity(city: CityDomainModel) {
+    private fun onFetchedCity(city: CityDomainModel) {
         updateViewState { withCity(cityDomainToPresentationMapper.toPresentation(city).toString()) }
     }
 
@@ -36,7 +36,7 @@ class WeatherHistoryPresentation(
         fetchHistoricalWeatherUseCase(scope, city, ::onWeatherFetched)
     }
 
-    fun onWeatherFetched(weather: WeatherDomainModel) {
+    private fun onWeatherFetched(weather: WeatherDomainModel) {
         updateViewState { withWeather(weatherDomainToPresentationMapper.toPresentation(weather)) }
     }
 

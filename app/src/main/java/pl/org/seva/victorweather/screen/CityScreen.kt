@@ -67,9 +67,8 @@ fun CityScreen(
                         )
                     }
                 },
-                onValueChange = {
-                    val text = it.trim()
-                    if (text.isEmpty() || Regex("^[a-zA-Z\\p{L}]+\$").matches(text))
+                onValueChange = { text ->
+                    if (text.isEmpty() || Regex("^[a-zA-Z \\p{L}]+\$").matches(text))
                         city = text
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
